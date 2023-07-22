@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
+djangorestframework = "*"
+pyyaml = "*"
+uritemplate = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 
