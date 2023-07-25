@@ -6,5 +6,7 @@ class Home(models.Model):
 
 
 class Store(models.Model):
+    class Meta:
+        db_table = 'stores'
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)

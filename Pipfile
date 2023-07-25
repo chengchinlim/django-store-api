@@ -9,6 +9,8 @@ djangorestframework = "*"
 pyyaml = "*"
 uritemplate = "*"
 drf-spectacular = "*"
+psycopg2-binary = "*"
+django-environ = "*"
 
 [dev-packages]
 

@@ -2,6 +2,8 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.core import serializers as django_serializers
+from django.http import HttpResponse
 
 from store_rest_api.models import Store, Home
 
@@ -33,11 +35,12 @@ class HomeView(APIView):
         return Response(data)
 
 
-class StoreView(APIView):
+class StoreListView(APIView):
     # queryset = Store.objects.all()
-    # serializer_class = StoreSerializer
+    serializer_class = StoreSerializer
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
-        data = {'id': 1, 'name': 'Django Store'}
-        return Response(data)
+        queried_data = Store.objects.all()
+        data = django_serializers.serialize('json', queried_data)
+        return HttpResponse(data, content_type='application/json')
