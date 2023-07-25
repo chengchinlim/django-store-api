@@ -1,10 +1,10 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import serializers as django_serializers
 from django.http import HttpResponse
-
 from store_rest_api.models import Store, Home
 
 
@@ -36,11 +36,29 @@ class HomeView(APIView):
 
 
 class StoreListView(APIView):
-    # queryset = Store.objects.all()
     serializer_class = StoreSerializer
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
         queried_data = Store.objects.all()
         data = django_serializers.serialize('json', queried_data)
+        return HttpResponse(data, content_type='application/json')
+
+
+class StoreView(RetrieveUpdateAPIView):
+    serializer_class = StoreSerializer
+
+    @extend_schema(responses={200: StoreSerializer})
+    def get(self, request, store_id):
+        store = Store.objects.get(pk=store_id)
+        data = django_serializers.serialize('json', [store])
+        return HttpResponse(data, content_type='application/json')
+
+    @extend_schema(responses={200: StoreSerializer})
+    def update(self, request, store_id):
+        new_name = request.data.get('name')
+        store = Store.objects.get(pk=store_id)
+        store.name = new_name
+        store.save()
+        data = django_serializers.serialize('json', [store])
         return HttpResponse(data, content_type='application/json')
