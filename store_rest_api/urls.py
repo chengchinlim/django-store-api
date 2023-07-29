@@ -4,7 +4,7 @@ from store_rest_api import views
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
-    path("stores/", views.StoreListView.as_view(), name="stores_list"),
+    path("stores", views.StoreListView.as_view(), name="stores_list"),
     path("store/<int:store_id>", views.StoreView.as_view(), name="store"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
