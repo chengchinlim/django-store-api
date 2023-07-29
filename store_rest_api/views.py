@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from django.core import serializers as django_serializers
 from django.http import HttpResponse, JsonResponse
 from store_rest_api.models import Store, Home
+from store_rest_api.services import StoreService
 
 
 class HomeSerializer(serializers.HyperlinkedModelSerializer):
@@ -55,9 +56,13 @@ class StoreListView(ListCreateAPIView):
 class StoreView(RetrieveUpdateAPIView):
     serializer_class = StoreSerializer
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.store_service = StoreService()
+
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request, store_id):
-        store = Store.objects.get(pk=store_id)
+        store = self.store_service.find_by_id(store_id)
         serializer = StoreSerializer(store)
         return JsonResponse(serializer.data)
 
