@@ -4,7 +4,7 @@ from rest_framework.generics import RetrieveUpdateAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import serializers as django_serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from store_rest_api.models import Store, Home
 
 
@@ -14,17 +14,17 @@ class HomeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['message']
 
 
-class StoreSerializer(serializers.HyperlinkedModelSerializer):
+class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ['id', 'name']
+        fields = ('id', 'name', 'created_at', 'updated_at')
 
     def to_representation(self, instance):
-        data = super().to_representation(instance)
-        # Modify the data here
-        # data['field1'] = data['field1'].upper()
-        return data
-
+        data = super(StoreSerializer, self).to_representation(instance)
+        formatted = {
+            'item': data
+        }
+        return formatted
 
 class HomeView(APIView):
     # queryset = Home.objects.all()
@@ -58,8 +58,8 @@ class StoreView(RetrieveUpdateAPIView):
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request, store_id):
         store = Store.objects.get(pk=store_id)
-        data = django_serializers.serialize('json', [store])
-        return HttpResponse(data, content_type='application/json')
+        serializer = StoreSerializer(store)
+        return JsonResponse(serializer.data)
 
     @extend_schema(responses={200: StoreSerializer})
     def update(self, request, store_id):
