@@ -27,6 +27,7 @@ class StoreSerializer(serializers.ModelSerializer):
         }
         return formatted
 
+
 class HomeView(APIView):
     # queryset = Home.objects.all()
     # serializer_class = HomeSerializer
@@ -56,20 +57,16 @@ class StoreListView(ListCreateAPIView):
 class StoreView(RetrieveUpdateAPIView):
     serializer_class = StoreSerializer
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.store_service = StoreService()
-
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request, store_id):
-        store = self.store_service.find_by_id(store_id)
+        store = StoreService.find_by_id(store_id)
         serializer = StoreSerializer(store)
         return JsonResponse(serializer.data)
 
     @extend_schema(responses={200: StoreSerializer})
     def update(self, request, store_id):
         new_name = request.data.get('name')
-        store = Store.objects.get(pk=store_id)
+        store = StoreService.find_by_id(store_id)
         store.name = new_name
         store.save()
         data = django_serializers.serialize('json', [store])
