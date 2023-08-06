@@ -11,6 +11,7 @@ uritemplate = "*"
 drf-spectacular = "*"
 psycopg2-binary = "*"
 django-environ = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
