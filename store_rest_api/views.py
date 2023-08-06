@@ -7,12 +7,26 @@ from django.core import serializers as django_serializers
 from django.http import HttpResponse, JsonResponse
 from store_rest_api.models import Store, Home
 from store_rest_api.services import StoreService
-
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 class HomeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Home
         fields = ['message']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email')
+
+    def to_representation(self, instance):
+        data = super(UserSerializer, self).to_representation(instance)
+        formatted = {
+            'item': data
+        }
+        return formatted
 
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -71,3 +85,15 @@ class StoreView(RetrieveUpdateAPIView):
         store.save()
         data = django_serializers.serialize('json', [store])
         return HttpResponse(data, content_type='application/json')
+
+
+class UserAuthenticationView(ListCreateAPIView):
+    def create(self, request, **kwargs):
+        username = request.data.get('username')
+        user = authenticate(username=username, password=request.data.get('password'))
+        if user is not None:
+            user = User.objects.get(username=username)
+            serializer = UserSerializer(user)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'message': 'Not authenticated'}, status=401)
