@@ -9,7 +9,7 @@ urlpatterns = [
     path('jwt/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('jwt/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path("stores", views.StoreListView.as_view(), name="stores_list"),
-    path("store/<int:store_id>", views.StoreView.as_view(), name="store"),
+    path("store", views.StoreView.as_view(), name="store"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "docs/",

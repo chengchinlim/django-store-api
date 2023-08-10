@@ -9,6 +9,9 @@ class JwtTokenMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        if request.path.startswith('/api/jwt/') or request.path.startswith('/admin'):
+            return self.get_response(request)
+
         jwt_authenticator = JWTAuthentication()
         # authenticate() verifies and decode the token
         # if token is invalid, it raises an exception and returns 401
@@ -17,6 +20,7 @@ class JwtTokenMiddleware:
             # unpacking
             user, token = response
             print("this is decoded token claims", token.payload)
+            request.user_id = token.payload.get('user_id')
             response = self.get_response(request)
             return response
         else:
