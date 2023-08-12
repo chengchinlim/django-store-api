@@ -1,15 +1,18 @@
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from store_rest_api import views
 from rest_framework_simplejwt import views as jwt_views
+from store_rest_api.views.home import HomeView
+from store_rest_api.views.store import StoreView
+from store_rest_api.views.store_list import StoreListView
+from store_rest_api.views.user import UserView
 
 urlpatterns = [
-    path("", views.HomeView.as_view(), name="home"),
+    path("", HomeView.as_view(), name="home"),
     path('jwt/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('jwt/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path("user", views.UserView.as_view(), name="user"),
-    path("stores", views.StoreListView.as_view(), name="stores_list"),
-    path("store", views.StoreView.as_view(), name="store"),
+    path("user", UserView.as_view(), name="user"),
+    path("stores", StoreListView.as_view(), name="stores_list"),
+    path("store", StoreView.as_view(), name="store"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "docs/",
