@@ -1,4 +1,4 @@
-from store_rest_api.models import Store
+from store_rest_api.models.store import Store
 
 
 class StoreService:

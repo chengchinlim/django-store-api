@@ -5,15 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import serializers as django_serializers
 from django.http import HttpResponse, JsonResponse
-from store_rest_api.models import Store, Home
-from store_rest_api.services import StoreService
+from store_rest_api.models.store import Store
+from store_rest_api.services.store_service import StoreService
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-
-class HomeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Home
-        fields = ['message']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -43,10 +38,9 @@ class StoreSerializer(serializers.ModelSerializer):
 
 
 class HomeView(APIView):
-    # queryset = Home.objects.all()
-    # serializer_class = HomeSerializer
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         data = {'message': 'Hello from Django Store REST API!'}
         return Response(data)
 

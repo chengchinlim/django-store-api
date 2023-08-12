@@ -8,13 +8,3 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-class Home(models.Model):
-    message = models.CharField(max_length=100)
-
-
-class Store(BaseModel):
-    class Meta:
-        db_table = 'stores'
-    name = models.CharField(max_length=100)
