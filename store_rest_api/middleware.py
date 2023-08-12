@@ -9,7 +9,10 @@ class JwtTokenMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.path.startswith('/api/jwt/') or request.path.startswith('/admin'):
+        if (request.path.startswith('/api/jwt/')
+                or request.path.startswith('/admin')
+                or request.path.startswith('/api/schema')
+                or request.path.startswith('/api/docs')):
             return self.get_response(request)
 
         jwt_authenticator = JWTAuthentication()
