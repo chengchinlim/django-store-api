@@ -7,6 +7,10 @@ class UserService:
     def find_by_id(user_id):
         return User.objects.get(pk=user_id)
 
+    @staticmethod
+    def create(user):
+        return User.objects.user_view(user)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
