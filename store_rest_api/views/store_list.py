@@ -2,7 +2,7 @@ from django.core import serializers as django_serializers
 from django.http import HttpResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListCreateAPIView
-from store_rest_api.services.store_service import StoreService, StoreSerializer
+from store_rest_api.services.store import StoreService, StoreSerializer
 
 
 class StoreListView(ListCreateAPIView):

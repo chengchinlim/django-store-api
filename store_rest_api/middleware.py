@@ -10,6 +10,7 @@ class JwtTokenMiddleware:
 
     def __call__(self, request):
         if (request.path.startswith('/api/jwt/')
+                or (request.path.startswith('/user') and request.method == 'POST')
                 or request.path.startswith('/admin')
                 or request.path.startswith('/api/schema')
                 or request.path.startswith('/api/docs')):
@@ -50,10 +51,17 @@ class JsonResponseMiddleware:
             }
             if json_obj.get('item') is not None:
                 formatted_data['item'] = json_obj['item']
-            if json_obj.get('items') is not None:
+            elif json_obj.get('items') is not None:
                 formatted_data['items'] = json_obj['items']
+
             if json_obj.get('extra') is not None:
                 formatted_data['extra'] = json_obj['extra']
+            if json_obj.get('errors') is not None:
+                formatted_data['errors'] = json_obj['errors']
+
+            # assume all above fields are empty
+            if len(formatted_data) <= 1:
+                formatted_data['unexpected'] = json_obj
 
             # from json object to byte
             result_str_data = json.dumps(formatted_data)

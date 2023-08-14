@@ -9,7 +9,7 @@ class UserService:
 
     @staticmethod
     def create(user):
-        return User.objects.user_view(user)
+        return User.objects.create(user)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,3 +23,8 @@ class UserSerializer(serializers.ModelSerializer):
             'item': data
         }
         return formatted
+
+
+class CreateUserSerializer(serializers.Serializer):
+    email = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, min_length=8)
