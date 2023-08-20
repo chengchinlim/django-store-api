@@ -8,6 +8,10 @@ class StoreService:
         return Store.objects.get(pk=store_id)
 
     @staticmethod
+    def find_by_user_id(user_id):
+        return Store.objects.get(user_id=user_id)
+
+    @staticmethod
     def find_all():
         return Store.objects.all()
 

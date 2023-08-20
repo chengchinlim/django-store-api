@@ -10,7 +10,7 @@ class StoreView(RetrieveUpdateAPIView):
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
-        store = StoreService.find_by_id(request.user_id)
+        store = StoreService.find_by_user_id(request.user_id)
         serializer = StoreSerializer(store)
         return JsonResponse(serializer.data)
 
