@@ -9,8 +9,9 @@ class JwtTokenMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        print(f'Path: {request.path}, Method: {request.method}')
         if (request.path.startswith('/api/jwt/')
-                or (request.path.startswith('/user') and request.method == 'POST')
+                or (request.path.startswith('/api/user') and request.method == 'POST')
                 or request.path.startswith('/admin')
                 or request.path.startswith('/api/schema')
                 or request.path.startswith('/api/docs')):
