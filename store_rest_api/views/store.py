@@ -10,14 +10,15 @@ class StoreView(RetrieveUpdateAPIView):
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
-        store = StoreService.find_by_user_id(request.user_id)
+        store = StoreService.find_one(request.user_id, request.GET.get('store_id'))
         serializer = StoreSerializer(store)
-        return JsonResponse(serializer.data)
+        result = {'data': serializer.data}
+        return JsonResponse(result)
 
     @extend_schema(responses={200: StoreSerializer})
     def update(self, request, store_id):
         new_name = request.data.get('name')
-        store = StoreService.find_by_id(store_id)
+        store = StoreService.find_one(request.user_id, store_id)
         store.name = new_name
         store.save()
         data = django_serializers.serialize('json', [store])
