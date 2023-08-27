@@ -1,4 +1,6 @@
 import json
+import time
+
 from django.http import JsonResponse
 from store_rest_api.util import is_json_array
 
@@ -8,6 +10,11 @@ class JsonResponseMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        request_hash = time.time_ns()
+        # print before start the request (debug)
+        print(request_hash, request.body.decode('utf-8'))
+        request.hash = request_hash
+
         response = self.get_response(request)
 
         if isinstance(response, JsonResponse):

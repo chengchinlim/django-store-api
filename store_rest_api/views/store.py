@@ -13,6 +13,7 @@ class StoreView(RetrieveUpdateAPIView):
     def get(self, request):
         store_id = request.GET.get('store_id')
         try:
+            print(f'{request.hash} Fetching store {store_id}')
             store = StoreService.find_one(request.user_id, store_id)
         except ObjectDoesNotExist:
             return JsonResponse({'errors': {
