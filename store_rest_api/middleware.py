@@ -2,6 +2,8 @@ import json
 from django.http import JsonResponse
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from store_rest_api.util import is_json_array
+
 
 class JwtTokenMiddleware:
     def __init__(self, get_response):
@@ -49,8 +51,12 @@ class JsonResponseMiddleware:
             formatted_data = {
                 'status': response.status_code
             }
-            if json_obj.get('item') is not None:
-                formatted_data['item'] = json_obj['item']
+            data = json_obj.get('data')
+            if json_obj.get('data') is not None:
+                if is_json_array(data):
+                    formatted_data['items'] = data
+                else:
+                    formatted_data['item'] = data
             elif json_obj.get('items') is not None:
                 formatted_data['items'] = json_obj['items']
 
