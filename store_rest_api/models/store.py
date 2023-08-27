@@ -9,5 +9,5 @@ class Store(BaseModel):
         db_table = 'stores'
         app_label = 'store_rest_api'
     name = models.CharField(max_length=100)
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE, null=True)
 
