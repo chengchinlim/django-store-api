@@ -1,5 +1,5 @@
 from django.core import serializers as django_serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListCreateAPIView
 from store_rest_api.services.store import StoreService, StoreSerializer
@@ -10,9 +10,10 @@ class StoreListView(ListCreateAPIView):
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
-        queried_data = StoreService.find_all()
-        data = django_serializers.serialize('json', queried_data)
-        return HttpResponse(data, content_type='application/json')
+        stores = StoreService.find_by_user_id(request.user_id)
+        serializer = StoreSerializer(stores)
+        result = {'data': serializer.data}
+        return JsonResponse(result)
 
     @extend_schema(responses={200: StoreSerializer})
     def create(self, request):
