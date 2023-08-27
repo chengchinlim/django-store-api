@@ -11,7 +11,7 @@ class StoreListView(ListCreateAPIView):
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
         stores = StoreService.find_by_user_id(request.user_id)
-        serializer = StoreSerializer(stores)
+        serializer = StoreSerializer(stores, many=True)
         result = {'data': serializer.data}
         return JsonResponse(result)
 

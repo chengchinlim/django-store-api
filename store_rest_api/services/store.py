@@ -7,11 +7,11 @@ from store_rest_api.services.user import UserSerializer
 class StoreService:
     @staticmethod
     def find_one(store_id, user_id):
-        return Store.objects.select_related('user').filter(id=store_id, user_id=user_id).first()
+        return Store.objects.get(id=store_id, user_id=user_id)
 
     @staticmethod
     def find_by_user_id(user_id):
-        return Store.objects.get(user_id=user_id)
+        return Store.objects.filter(user_id=user_id)
 
     @staticmethod
     def find_all():
