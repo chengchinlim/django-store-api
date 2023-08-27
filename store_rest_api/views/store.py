@@ -1,4 +1,5 @@
 from django.core import serializers as django_serializers
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, JsonResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveUpdateAPIView
@@ -10,7 +11,14 @@ class StoreView(RetrieveUpdateAPIView):
 
     @extend_schema(responses={200: StoreSerializer})
     def get(self, request):
-        store = StoreService.find_one(request.user_id, request.GET.get('store_id'))
+        store_id = request.GET.get('store_id')
+        try:
+            store = StoreService.find_one(request.user_id, store_id)
+        except ObjectDoesNotExist:
+            return JsonResponse({'errors': {
+                'dev': f'Store {store_id} not found',
+                'user': f'Store {store_id} not found'
+            }}, status=404)
         serializer = StoreSerializer(store)
         result = {'data': serializer.data}
         return JsonResponse(result)

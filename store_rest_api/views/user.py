@@ -24,9 +24,14 @@ class UserView(ListCreateAPIView):
                 validate_password(data['password'], user=None, password_validators=None)
             except ValidationError as e:
                 print(e)
-                return JsonResponse({'errors': e.messages}, status=422)
-            # return JsonResponse(serializer.validated_data, status=201)
+                return JsonResponse({'errors': {
+                    'dev': e.messages,
+                    'user': 'Invalid password'
+                }}, status=422)
             user = UserService.create(data)
             serializer = UserSerializer(user)
             return JsonResponse(serializer.data)
-        return JsonResponse({'errors': serializer.errors}, status=422)
+        return JsonResponse({'errors': {
+            'dev': serializer.errors,
+            'user': 'Invalid password'
+        }}, status=422)
