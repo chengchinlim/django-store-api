@@ -56,8 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'store_rest_api.middleware.JwtTokenMiddleware',
-    'store_rest_api.middleware.JsonResponseMiddleware',
+    'store_rest_api.middlewares.JwtTokenMiddleware',
+    'store_rest_api.middlewares.JsonResponseMiddleware',
 ]
 
 SIMPLE_JWT = {
