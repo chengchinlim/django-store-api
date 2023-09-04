@@ -29,10 +29,3 @@ class StoreSerializer(serializers.ModelSerializer):
         model = Store
         fields = ('id', 'name', 'created_at', 'updated_at', 'user')
 
-    # def to_representation(self, instance):
-    #     data = super(StoreSerializer, self).to_representation(instance)
-    #     formatted = {
-    #         'item': data
-    #     }
-    #     return formatted
-

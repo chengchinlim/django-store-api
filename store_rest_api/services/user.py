@@ -24,13 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'first_name', 'last_name', 'email', 'username')
 
-    # def to_representation(self, instance):
-    #     data = super(UserSerializer, self).to_representation(instance)
-    #     formatted = {
-    #         'item': data
-    #     }
-    #     return formatted
-
 
 class CreateUserSerializer(serializers.Serializer):
     email = serializers.CharField(required=True)
