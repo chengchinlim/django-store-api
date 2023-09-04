@@ -1,10 +1,8 @@
-from django.core import serializers as django_serializers
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListCreateAPIView
 
-from store_rest_api.models.product import ProductSerializer
-from store_rest_api.services.product import ProductService
+from store_rest_api.services.product import ProductService, ProductSerializer
 
 
 class ProductListView(ListCreateAPIView):

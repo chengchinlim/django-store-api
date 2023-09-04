@@ -1,3 +1,5 @@
+from rest_framework import serializers
+
 from store_rest_api.models.product import Product
 from store_rest_api.services.store import StoreService
 
@@ -12,3 +14,9 @@ class ProductService:
             store.products.add(product)
         store.save()
         return store.products
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'category', 'created_at', 'updated_at')
