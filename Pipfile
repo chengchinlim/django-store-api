@@ -13,6 +13,7 @@ psycopg2-binary = "*"
 django-environ = "*"
 djangorestframework-simplejwt = "*"
 flake8-for-pycharm = "*"
+django-clearcache = "*"
 
 [dev-packages]
 

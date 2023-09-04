@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store_rest_api',
     'rest_framework',
-    'drf_spectacular'
+    'drf_spectacular',
+    'clearcache'
 ]
 
 MIDDLEWARE = [
